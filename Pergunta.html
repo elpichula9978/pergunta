@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .texto {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            font-size: 20px ;
+            text-align: left;
+            color: #000000;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .sim {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+            margin-right: 30px;
+        }
+
+        .nao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .btn {
+            background-color: #af048a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: #f3adb3;
+        }
+
+        #nao {
+            position: absolute;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAMAAAC8EZcfAAAAb1BMVEX/////Bwf/AAD/6ur/xMT/5OT/2tr/7+//VVX/0ND/5+f/Kir/Skr/UFD/iYn/8/P/+Pj/MDD/fn7/ERH/v7//Y2P/jo7/n5//paX/rKz/W1v/uLj/enr/Ojr/IyP/GBj/mJj/cnL/amr/Q0P/srK3xG7RAAAE40lEQVR4nO2c2ZaqMBBFtZBJRBHnAWht//8bb0BdDlRCRpJel/3ow1mHxCSVSiWj0cDAwMDAwMDAf0EYxPGEEAeevIgX3DXiINTnjDDdn69pkZTVqqqSYnbNbxImw0O+mRVJRUTKpEiv5/1Uizl/vQGMPBYw6cU5KrKZ+Ir2Jtsl0Rm3Ib/OdgGfSLCbUUWW24mCvTiqUOGnfHnhaAD/XDJFqkjWYpzi3/3RAnmHxWnOIZLGEvbCecUWfqgXe5bK/rfD3l2lmguP6njFo9xYnFEbcZpyi4zFGjH74VRu1JMbrnIoBUTGP5mAwYuAv/r7t5jIVlDkwm1vGokoN+Kb1qToXYX81SIR58wdpoL+avVo8SmyEP3IWiTlGirZRlyaiH+2oScncuT4H2ZXGem6Dd8cehLt14hcux3O5aRr8ZeI5EcSEXS4vTMR/Gu/i+dPkVxeAzrWPb+Q1ibiu7vITv4jx1Cw1075b28cNuFNoOCPiMzZHawgTcSXZJ4Il4oirE7+VdNuPl+pE2qNX7q/m1Ln1OIQx6oaY6As7WT2P6pqk05W7OBa47igGFSYYl7qOiRo/0Kp5ckAsMH9hRq+XgsAeNBwcMQfcXhADc7cMTjD/Pnq408XsMTWu9PYHYOrE2Lwxxl/xOFP2192dsnguR24eu6MkXp30s5M+YlLBpP2KFGL4jTziCy/DNp29Q5iMHbdoGIwrRkkoDm5ZbA9UztvcO2WwfXf+w86ZrCdcHV+HvwDBh1yiC11Ps+pQ19A1Q4WHIr48RyX8/HgQjoragC4ItkP6dyvAdAk4c4lgzvEoHLuTR+AZuBigZM1w0CJHS0uFPLnmoECzRBKnIAZAiLMn0PDGEssjFzaNiHBVk3myjAGoJzYubKWUI+2Xdk3ITumO4EbAQ0sqQVDqodEenidmrZwYrXD17kHLvQxLOn+RnsXDLJKmbyVdYewYpb92W9CZgOqlQTo8ddREmD9MAKNpT+wm0uHpMsfWe8sOgQk7dbCZljILvl4MLU3TqDgqn+zl2vl6eCarSWH3YVbD0L16g8pfxF3pa1vY4uMpdyoTPpfk2ElVO+tUsAm569jDW7R90ChbIUZXHp1KFCj/KTXoQwbWrkWgx5TrlL+emzDjwJiEbx+HMJR+u6QhoJCHn9S/XvHN58z5K7gx/FMjxS4Kl5gk6vs5/e3EblFgmJ0tkEPbISZm1qXgSvCt+dQmz9DsQ10b4H5uemPYKHEC1UlWet2CCXnBokXzbsAKFVvnbYd6lxUINLurzmS12QRBPZvQpz1OAQ4G7EneKGS4U/okqQYB3WHQKmD18RE9RwAlio3sjkI1OrVYcV57VyeqUqUDamB6eWbUL5kHS5mppcvslxuqJDpRUf0x4PUYBbOvvTs0PD08s1E9LRCe/TSheCRFBTGp5dvApE7zhD17o8MZu6nBIDn4rUJOKcbYJzxG4YrugHx5Kk+Tt0bASgZJQjm6ZxuIDEcvXThs6MbGFsYvp9MWZspSPW8a6QE49EHrNrYAhnl2RHQkFvTQ4Y/3ALzvqKrbhCHlEdobHH7Pn2Eyur012b92YZc1RH9cnpvQ/yCsGXi15YZEpmHtIwTP9tQ9I2q3gjuV1Lg1/ryRqPJITIeCrOPP2M9ZOYCi4uWoxmDhL0kNwYGBgYGBgYG/gz/AOrMVblMASUuAAAAAElFTkSuQmCC'); /* imagem de coração */
+            background-size: cover;
+            transform: scale(0);
+            animation: showHeart 1s forwards;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes showHeart {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        
+        <p class="texto">
+            
+Andressa, minha parceira incrível,</p>
+<p class="texto" >
+Passaram quase três anos desde que embarcamos nesta jornada maravilhosa juntos. Não há palavras suficientes para descrever o quanto você é especial para mim, nem o quanto o nosso amor cresceu e floresceu nesse tempo.
+<p class="texto">
+Lembro-me de quando nos conhecemos e como seu sorriso brilhante e seus olhos cativantes conquistaram meu coração desde o primeiro momento. Com você, aprendi o verdadeiro significado da felicidade, do companheirismo e do amor verdadeiro.</p>
+<p class="texto">
+Andressa, quero passar o resto da minha vida ao seu lado, enfrentando todos os desafios que surgirem e celebrando todas as alegrias que a vida nos proporcionar. Você é a pessoa com quem eu quero compartilhar todos os momentos importantes, desde os mais simples até os mais extraordinários.</p>
+<p class="texto">
+Hoje, neste momento, quero fazer uma pergunta muito especial: Andressa, você aceita se casar comigo? Quero construir um futuro cheio de amor, respeito e cumplicidade ao seu lado. Seremos uma equipe imbatível, enfrentando qualquer obstáculo juntos.</p>
+<p class="texto">
+Lembraremos deste dia como o momento em que dei um passo adiante, abrindo meu coração e minha vida para você de uma forma ainda mais profunda. Espero que aceite esse pedido e faça de mim o homem mais feliz do mundo.</p>
+<p class="texto">
+Andressa, meu amor, eu te amo mais do que as palavras podem expressar. Estou ansioso para compartilhar o resto da minha vida com você. E lembre-se, estarei sempre aqui, segurando sua mão e amando você incondicionalmente.</p>
+<p class="texto">
+Com todo o meu amor,
+(Gustavo)</p>
+        </p>
+        <h1>Quer Casar Comigo?</h1>
+        <div class="sim">
+            <button id="sim" class="btn">Sim</button>
+            <div style="margin-left: 30px;" class="nao">
+                <button id="nao" class="btn">Não</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="hearts"></div>
+
+    <script>
+        $(document).ready(function() {
+            var ativo = true;
+
+            $("#sim").click(function() {
+                showHearts();
+            });
+
+            $("#nao").mouseover(function() {
+                if (ativo) {
+                    var maxX = $(window).width() - $(this).outerWidth();
+                    var maxY = $(window).height() - $(this).outerHeight();
+
+                    var newX = Math.random() * maxX;
+                    var newY = Math.random() * maxY;
+
+                    $(this).css({
+                        left: newX + "px",
+                        top: newY + "px"
+                    });
+                }
+            });
+
+            $("#nao").click(function() {
+                ativo = false;
+                $(this).attr("disabled", "disabled");
+            });
+
+            function showHearts() {
+                var heartsContainer = $(".hearts");
+
+                for (var i = 0; i < 20; i++) {
+                    var heart = $("<div/>").addClass("heart");
+                    var posX = Math.random() * $(window).width();
+                    var posY = Math.random() * $(window).height();
+                    heart.css({
+                        left: posX + "px",
+                        top: posY + "px"
+                    });
+                    heartsContainer.append(heart);
+                }
+
+                setTimeout(function() {
+                    heartsContainer.empty();
+                }, 2000);
+            }
+        });
+        function showVideo() {
+  var videoContainer = $("#video-container");
+  videoContainer.html('<iframe width="560" height="315" url="https://youtu.be/6MexbdnM3d8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
+}
+
+$("#sim").click(function() {
+  showVideo();
+});
+
+$(document).ready(function() {
+            var ativo = true;
+
+            $("#sim").click(function() {
+                showHearts();
+                showVideo();
+            });
+
+            // Função para exibir os corações
+            function showHearts() {
+                // código para exibir os corações
+            }
+
+            // Função para exibir o vídeo do YouTube
+            function showVideo() {
+                var videoUrl = "https://youtu.be/6MexbdnM3d8";
+                var embedUrl = "https://www.youtube.com/embed/6MexbdnM3d8";
+
+                var videoContainer = $("<div>").addClass("video-container");
+                var iframe = $("<iframe>").attr({
+                    src: embedUrl,
+                    frameborder: 0,
+                    allowfullscreen: true
+                });
+
+                videoContainer.append(iframe);
+                $(".container").empty().append(videoContainer);
+            }
+        });
+
+    </script>
+    
+</body>
+</html>
+
+    
+  
